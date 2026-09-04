@@ -1,4 +1,4 @@
-﻿[plugin]
+[plugin]
 id = "steam_hoverless"
 name = "Steam Hoverless"
 version = "1.0.0"
@@ -8,8 +8,6 @@ description = "Disables Steam game hover preview popups in Store/Home and Librar
 [frontend]
 entry = "frontend/index.tsx"
 
-[webkit]
-entry = "webkit/preload.ts"
 
 [compiler]
 output_path = "auto"
