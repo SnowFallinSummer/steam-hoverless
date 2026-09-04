@@ -11,3 +11,6 @@ entry = "frontend/index.tsx"
 
 [compiler]
 output_path = "auto"
+
+[webkit]
+entry = "webview/preload.ts"
