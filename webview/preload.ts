@@ -8,7 +8,8 @@ function hideHovers(): void {
     const style = document.createElement("style");
     style.id = styleId;
     style.textContent = `
-        .hover.game_hover {
+        .hover.game_hover,
+        [popover="manual"] {
             display: none !important;
             visibility: hidden !important;
             opacity: 0 !important;
