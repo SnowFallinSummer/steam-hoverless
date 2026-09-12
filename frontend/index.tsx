@@ -1,6 +1,4 @@
-﻿const MILLENNIUM_IS_CLIENT_MODULE = true;
-
-const pluginName = "steam_hoverless";
+const MILLENNIUM_IS_CLIENT_MODULE = true;
 
 const STYLE_ID = "steam-hoverless-style";
 
@@ -9,35 +7,35 @@ function install() {
         const popupManager = (window as any).g_PopupManager;
         if (!popupManager?.m_mapPopups) return false;
 
-        const popup = [...popupManager.m_mapPopups.values()][0];
-        const doc = popup?.m_popup?.document;
+        let installed = false;
 
-        if (!doc?.head) return false;
+        for (const popup of popupManager.m_mapPopups.values()) {
+            const doc = popup?.m_popup?.document;
 
-        if (!doc.getElementById(STYLE_ID)) {
-            const style = doc.createElement("style");
-            style.id = STYLE_ID;
-            style.textContent = `
-                [popover="manual"].HoverPositionOuter {
-                    display: none !important;
-                    visibility: hidden !important;
-                    opacity: 0 !important;
-                    pointer-events: none !important;
-                }
-            `;
-            doc.head.appendChild(style);
+            if (!doc?.head) continue;
+
+            if (!doc.getElementById(STYLE_ID)) {
+                const style = doc.createElement("style");
+                style.id = STYLE_ID;
+                style.textContent = `
+                    [popover="manual"].HoverPositionOuter {
+                        display: none !important;
+                        visibility: hidden !important;
+                        opacity: 0 !important;
+                        pointer-events: none !important;
+                    }
+                `;
+                doc.head.appendChild(style);
+            }
+
+            installed = true;
         }
 
-        return true;
+        return installed;
     };
 
-    if (!installCSS()) {
-        const timer = window.setInterval(() => {
-            if (installCSS()) {
-                window.clearInterval(timer);
-            }
-        }, 250);
-    }
+    installCSS();
+    window.setInterval(installCSS, 250);
 }
 
 function main() {
@@ -49,5 +47,3 @@ function main() {
 }
 
 main();
-
-

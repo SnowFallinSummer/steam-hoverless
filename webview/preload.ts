@@ -9,7 +9,7 @@ function hideHovers(): void {
     style.id = styleId;
     style.textContent = `
         .hover.game_hover,
-        [popover="manual"] {
+        ._14fzjUJx__1_iVvRQOFvNZ {
             display: none !important;
             visibility: hidden !important;
             opacity: 0 !important;
