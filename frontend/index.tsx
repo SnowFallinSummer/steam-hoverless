@@ -1,9 +1,27 @@
 const MILLENNIUM_IS_CLIENT_MODULE = true;
 
 const STYLE_ID = "steam-hoverless-style";
+const MAIN_STYLE_ID = "steam-hoverless-main-style";
 
 function install() {
-    const installCSS = () => {
+    const installMainCSS = () => {
+        if (!document.head) return false;
+
+        if (!document.getElementById(MAIN_STYLE_ID)) {
+            const style = document.createElement("style");
+            style.id = MAIN_STYLE_ID;
+            style.textContent = `
+                .related_items_ctn {
+                    display: none !important;
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        return true;
+    };
+
+    const installPopupCSS = () => {
         const popupManager = (window as any).g_PopupManager;
         if (!popupManager?.m_mapPopups) return false;
 
@@ -34,8 +52,10 @@ function install() {
         return installed;
     };
 
-    installCSS();
-    window.setInterval(installCSS, 250);
+    installMainCSS();
+    installPopupCSS();
+
+    window.setInterval(installPopupCSS, 250);
 }
 
 function main() {
