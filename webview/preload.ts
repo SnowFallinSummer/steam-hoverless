@@ -15,6 +15,12 @@ function hideHovers(): void {
             opacity: 0 !important;
             pointer-events: none !important;
         }
+
+        .related_items_ctn,
+        [data-featuretarget="creatorhome-carousel"],
+        .steam_curators_block {
+            display: none !important;
+        }
     `;
 
     document.head.appendChild(style);

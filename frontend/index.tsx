@@ -14,6 +14,14 @@ function install() {
                 .related_items_ctn {
                     display: none !important;
                 }
+
+                [data-featuretarget="creatorhome-carousel"] {
+                    display: none !important;
+                }
+
+                .steam_curators_block {
+                    display: none !important;
+                }
             `;
             document.head.appendChild(style);
         }
