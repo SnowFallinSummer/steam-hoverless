@@ -3,7 +3,7 @@ id = "steam_hoverless"
 name = "Steam Hoverless"
 version = "1.0.0"
 author = "SnipCheddaBombs"
-description = "Gets rid of game hover previews and hides a few recommendation sections."
+description = "Stops game preview popups when you hover over games."
 
 [frontend]
 entry = "frontend/index.tsx"
