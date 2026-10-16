@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/SteamClientHomebrew/Millennium/main/src/sys/plugin-schema.json",
   "name": "steam_hoverless",
   "common_name": "Steam Hoverless",
-  "description": "Disables Steam game hover preview popups in Store/Home and Library.",
+  "description": "Hides game hover previews in the Steam Library and supported Store views.",
   "backendType": "none",
   "webkitApiVersion": "2.0.0"
 }
