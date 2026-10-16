@@ -1,42 +1,26 @@
 # Steam Hoverless
 
-A Millennium plugin that disables Steam's game hover-preview popups.
+Steam Hoverless suppresses Steam game hover-preview popups in the Library/main client and embedded Store views. It also hides selected recommendation modules (related items, the creator-home carousel, and curator blocks) where those elements are present.
 
-## What it does
+The frontend uses Steam's popup manager to add CSS to popup documents; the WebKit preload handles hover UI in embedded browser views. Normal game selection and navigation are intended to remain available.
 
-Steam Hoverless removes Steam's game hover-preview popup when hovering over games in:
+## Build and install
 
-- Steam Library
-- Steam Home
-- Steam Store
+Requirements: [Millennium](https://github.com/SteamClientHomebrew/Millennium) and [Bun](https://bun.sh/).
 
-It does not disable normal game selection, navigation, or other Steam UI.
+From this repository's root:
 
-## How it works
+```sh
+bun install
+bun run build
+```
 
-Steam renders the hover preview as a manually-managed popup using the [popover="manual"].HoverPositionOuter element.
+Install the compiled plugin through Millennium and enable **Steam Hoverless** in plugin settings.
 
-Steam Hoverless injects a small CSS rule into Steam's popup document that hides this element.
+## AI assistance and maintenance
 
-The plugin waits for Steam's popup manager to become available, then installs the stylesheet once.
-
-## Installation
-
-Install the compiled .star plugin through Millennium.
-
-## Development
-
-Requires Bun.
-
-    bun install
-    bun run build
-
-## Credits
-
-Created by SnipCheddaBombs.
-
-Developed and reverse-engineered with assistance from ChatGPT (GPT-5.6 Luna).
+AI tools assisted with reverse-engineering, implementation, and troubleshooting. The maintainer is responsible for reviewing, testing, and maintaining the code; AI assistance is disclosed here for submission transparency.
 
 ## License
 
-MIT
+MIT. See [LICENSE](LICENSE).
