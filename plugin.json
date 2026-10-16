@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/SteamClientHomebrew/Millennium/main/src/sys/plugin-schema.json",
   "name": "steam_hoverless",
   "common_name": "Steam Hoverless",
-  "description": "Stops game preview popups on hover and hides selected recommendation sections.",
+  "description": "Gets rid of game hover previews and hides a few recommendation sections.",
   "backendType": "none",
   "webkitApiVersion": "2.0.0"
 }
