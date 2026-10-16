@@ -3,7 +3,7 @@ id = "steam_hoverless"
 name = "Steam Hoverless"
 version = "1.0.0"
 author = "SnipCheddaBombs"
-description = "Disables Steam game hover preview popups in Store/Home and Library."
+description = "Hides game hover previews in the Steam Library and supported Store views."
 
 [frontend]
 entry = "frontend/index.tsx"
