@@ -1,3 +1,5 @@
+const MILLENNIUM_IS_CLIENT_MODULE = true;
+
 const STYLE_ID = "steam-hoverless-style";
 
 function installPopupCSS() {
