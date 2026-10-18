@@ -2,14 +2,10 @@
 id = "steam_hoverless"
 name = "Steam Hoverless"
 version = "1.0.0"
-author = "SnipCheddaBombs"
-description = "Stops game preview popups when you hover over games."
+description = "Hides Steam game hover-preview popups."
 
 [frontend]
 entry = "frontend/index.tsx"
 
 [compiler]
 output_path = "auto"
-
-[webkit]
-entry = "webview/preload.ts"
