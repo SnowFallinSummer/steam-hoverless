@@ -1,10 +1,10 @@
 # Steam Hoverless
 
-Steam Hoverless stops game preview popups from appearing when you hover over games in your Steam Library and supported Store views.
+Steam Hoverless hides Steam's game hover-preview popups, preventing the large preview card from appearing when hovering over games in Steam views that use the client popup manager.
 
-It also hides selected recommendation sections where they appear, including related items, creator carousels, and curator blocks. Game selection and navigation are intended to keep working normally.
+## How it works
 
-The frontend uses Steam's popup manager to add CSS to popup documents. A WebKit preload handles hover UI in embedded browser views, so the plugin covers more than one type of Steam view.
+The plugin adds one CSS rule to Steam-managed popup documents to hide the `.HoverPositionOuter` preview element. It does not alter recommendation sections, creator carousels, curator blocks, Store page layout, normal game selection, or navigation.
 
 ## Build and install
 
@@ -17,7 +17,7 @@ bun install
 bun run build
 ```
 
-Install the compiled plugin through Millennium and enable **Steam Hoverless** in plugin settings.
+Enable **Steam Hoverless** in Millennium's plugin settings.
 
 ## AI assistance and maintenance
 
