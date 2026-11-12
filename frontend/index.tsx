@@ -30,14 +30,34 @@ function installPopupCSS() {
 }
 
 function main() {
-    if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", installPopupCSS, { once: true });
-    } else {
-        installPopupCSS();
-    }
+    let intervalId: number | undefined;
 
-    // Steam creates hover popups dynamically, so apply the rule to new popup documents.
-    window.setInterval(installPopupCSS, 250);
+    const start = () => {
+        installPopupCSS();
+
+        // Steam creates hover popups dynamically, so keep checking for newly
+        // created popup documents while this Steam UI page is active.
+        if (intervalId === undefined) {
+            intervalId = window.setInterval(installPopupCSS, 250);
+        }
+    };
+
+    const cleanup = () => {
+        if (intervalId !== undefined) {
+            window.clearInterval(intervalId);
+            intervalId = undefined;
+        }
+        document.removeEventListener("DOMContentLoaded", start);
+        window.removeEventListener("pagehide", cleanup);
+    };
+
+    window.addEventListener("pagehide", cleanup, { once: true });
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", start, { once: true });
+    } else {
+        start();
+    }
 }
 
 main();
