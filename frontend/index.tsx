@@ -1,32 +1,29 @@
 const MILLENNIUM_IS_CLIENT_MODULE = true;
 
-const STYLE_ID = "steam-hoverless-style";
+// The actual behavior is one CSS rule. The small amount of TypeScript below
+// only carries that rule into Steam's separately managed popup documents.
+const STYLE_ID = "steam-hoverless2-style";
+const HOVERLESS_CSS = `
+[popover="manual"].HoverPositionOuter {
+    display: none !important;
+}
+`;
 
 function installPopupCSS() {
     const popupManager = (window as any).g_PopupManager;
-    if (!popupManager?.m_mapPopups) return false;
+    const popups = popupManager?.m_mapPopups;
 
-    let installed = false;
+    if (!popups || typeof popups.values !== "function") return;
 
-    for (const popup of popupManager.m_mapPopups.values()) {
+    for (const popup of popups.values()) {
         const doc = popup?.m_popup?.document;
-        if (!doc?.head) continue;
+        if (!doc?.head || doc.getElementById(STYLE_ID)) continue;
 
-        if (!doc.getElementById(STYLE_ID)) {
-            const style = doc.createElement("style");
-            style.id = STYLE_ID;
-            style.textContent = `
-                [popover="manual"].HoverPositionOuter {
-                    display: none !important;
-                }
-            `;
-            doc.head.appendChild(style);
-        }
-
-        installed = true;
+        const style = doc.createElement("style");
+        style.id = STYLE_ID;
+        style.textContent = HOVERLESS_CSS;
+        doc.head.appendChild(style);
     }
-
-    return installed;
 }
 
 function main() {
@@ -35,8 +32,8 @@ function main() {
     const start = () => {
         installPopupCSS();
 
-        // Steam creates hover popups dynamically, so keep checking for newly
-        // created popup documents while this Steam UI page is active.
+        // Steam creates these popup documents dynamically. Re-check so the
+        // rule is applied to previews opened after the plugin starts.
         if (intervalId === undefined) {
             intervalId = window.setInterval(installPopupCSS, 250);
         }
