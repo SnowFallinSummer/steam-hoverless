@@ -1,58 +1,52 @@
-# Steam Hoverless
+# Steam Hoverless 2
 
-Steam Hoverless suppresses Steam's native game hover-preview popup in Steam client views that use the client popup manager.
+An experimental CSS-first version of Steam Hoverless.
 
-It is deliberately narrow: it hides the hover-preview surface, not the game tile or the surrounding page.
+Steam's hover previews are rendered in popup documents managed by the Steam client. A global Quick CSS rule can affect the Library view but does not necessarily reach the separate popup documents used by Home and Store. SH2 therefore uses a minimal Millennium frontend module to place one CSS rule into each managed popup document.
 
 ## Behavior
 
-- Hides the native game hover-preview popup when Steam creates it.
-- Leaves game selection, clicks, navigation, and the underlying game tiles available.
-- Does not hide recommendation sections, creator carousels, curator blocks, or other Store content.
-- Does not make network requests or depend on an external browser extension.
+- Hides the native game hover-preview popup.
+- Leaves game tiles, selection, clicks, and navigation available.
+- Does not hide recommendation sections or other Store content.
+- Uses no backend and makes no network requests.
 
-The effect applies in Steam views that use the shared popup manager for game hover previews (including the Library, Home, and Store contexts where that popup is used). Steam controls which views create that popup.
+## CSS
+
+```css
+[popover="manual"].HoverPositionOuter {
+    display: none !important;
+}
+```
 
 ## Implementation
 
-The plugin runs as a Millennium client-side frontend module (`frontend/index.tsx`).
+The frontend checks Steam's `window.g_PopupManager.m_mapPopups` collection and adds the CSS rule to each popup document. It checks every 250 ms because Steam creates hover-preview windows dynamically. A unique style ID prevents duplicate injection.
 
-1. It accesses Steam's client popup manager through `window.g_PopupManager`.
-2. It checks the manager's popup collection for popup documents that have been created.
-3. It injects one narrowly scoped stylesheet rule targeting Steam's `[popover="manual"].HoverPositionOuter` preview element.
-4. It checks periodically because Steam creates and destroys hover popups dynamically. A style ID prevents duplicate injection into the same popup document.
+This is not literally a standalone stylesheet: the small frontend bridge is required because Quick CSS in the main Steam document did not affect every popup context. The goal of this build is to keep the behavior CSS-driven while limiting JavaScript to delivering the rule to those popup documents.
 
-This is intentionally implemented in the Steam client frontend rather than as a WebKit Store-page content script: the popup manager is a Steam-client runtime object, and the plugin needs to reach the documents owned by those managed popup windows.
+## Test plan
 
-## Download and install
+1. Disable the original Steam Hoverless plugin.
+2. Enable Steam Hoverless 2.
+3. Test game hover previews in Library, Home, and Store.
+4. Confirm game tiles remain selectable and clickable.
+5. Compare the result with SH1 and the Quick CSS-only test.
 
-**[Open GitHub Releases](https://github.com/SnowFallinSummer/steam-hoverless/releases)** for permanent downloads. Each published version includes its installable `.star` package. No release has been published yet; the first package will appear after the initial version tag is created.
-
-You need [Millennium](https://github.com/SteamClientHomebrew/Millennium) installed first. For a manual install:
-
-1. Fully exit Steam.
-2. Once a version is published, download its `.star` file from the Releases page above.
-3. Put the `.star` file in Millennium's plugin directory:
-   - **Windows:** `%STEAM%\millennium\plugin`
-   - **Linux:** `~/.local/share/millennium/plugins`
-4. Start Steam, open **Steam → Millennium → Plugins**, enable the plugin, save changes, and restart Steam if prompted.
-
-See Millennium's [official plugin installation guide](https://docs.steambrew.app/users/guides/installing-addons) and [plugin directory reference](https://docs.steambrew.app/users/getting-started/structure) for current instructions.
+SH2 is experimental and has not yet been verified in a live Steam client.
 
 ## Build
 
-Requirements: [Millennium](https://github.com/SteamClientHomebrew/Millennium) and [Bun](https://bun.sh/).
+Requirements: Millennium and Bun.
 
 ```sh
 bun install --frozen-lockfile
 bun run build
 ```
 
-The GitHub Actions workflow builds the plugin, verifies the generated `.star` package with Starlight, and publishes it as a downloadable GitHub Release when a version tag is pushed.
-
 ## AI assistance and maintenance
 
-AI tools assisted with reverse-engineering, implementation, and troubleshooting. The maintainer is responsible for reviewing, testing, and maintaining the code. This disclosure is included for submission transparency.
+AI tools assisted with implementation. The maintainer is responsible for reviewing, testing, and maintaining the code.
 
 ## License
 
