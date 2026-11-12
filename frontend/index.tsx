@@ -32,15 +32,6 @@ function installPopupCSS() {
 function main() {
     let intervalId: number | undefined;
 
-    const cleanup = () => {
-        if (intervalId !== undefined) {
-            window.clearInterval(intervalId);
-            intervalId = undefined;
-        }
-        document.removeEventListener("DOMContentLoaded", start);
-        window.removeEventListener("pagehide", cleanup);
-    };
-
     const start = () => {
         installPopupCSS();
 
@@ -49,6 +40,15 @@ function main() {
         if (intervalId === undefined) {
             intervalId = window.setInterval(installPopupCSS, 250);
         }
+    };
+
+    const cleanup = () => {
+        if (intervalId !== undefined) {
+            window.clearInterval(intervalId);
+            intervalId = undefined;
+        }
+        document.removeEventListener("DOMContentLoaded", start);
+        window.removeEventListener("pagehide", cleanup);
     };
 
     window.addEventListener("pagehide", cleanup, { once: true });
