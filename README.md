@@ -1,27 +1,43 @@
 # Steam Hoverless
 
-Steam Hoverless hides Steam's game hover-preview popups, preventing the large preview card from appearing when hovering over games in Steam views that use the client popup manager.
+Steam Hoverless suppresses Steam's native game hover-preview popup in Steam client views that use the client popup manager.
 
-## How it works
+It is deliberately narrow: it hides the hover-preview surface, not the game tile or the surrounding page.
 
-The plugin adds one CSS rule to Steam-managed popup documents to hide the `.HoverPositionOuter` preview element. It does not alter recommendation sections, creator carousels, curator blocks, Store page layout, normal game selection, or navigation.
+## Behavior
 
-## Build and install
+- Hides the native game hover-preview popup when Steam creates it.
+- Leaves game selection, clicks, navigation, and the underlying game tiles available.
+- Does not hide recommendation sections, creator carousels, curator blocks, or other Store content.
+- Does not make network requests or depend on an external browser extension.
+
+The effect applies in Steam views that use the shared popup manager for game hover previews (including the Library, Home, and Store contexts where that popup is used). Steam controls which views create that popup.
+
+## Implementation
+
+The plugin runs as a Millennium client-side frontend module (`frontend/index.tsx`).
+
+1. It accesses Steam's client popup manager through `window.g_PopupManager`.
+2. It checks the manager's popup collection for popup documents that have been created.
+3. It injects one narrowly scoped stylesheet rule targeting Steam's `[popover="manual"].HoverPositionOuter` preview element.
+4. It checks periodically because Steam creates and destroys hover popups dynamically. A style ID prevents duplicate injection into the same popup document.
+
+This is intentionally implemented in the Steam client frontend rather than as a WebKit Store-page content script: the popup manager is a Steam-client runtime object, and the plugin needs to reach the documents owned by those managed popup windows.
+
+## Build
 
 Requirements: [Millennium](https://github.com/SteamClientHomebrew/Millennium) and [Bun](https://bun.sh/).
 
-From this repository's root:
-
 ```sh
-bun install
+bun install --frozen-lockfile
 bun run build
 ```
 
-Enable **Steam Hoverless** in Millennium's plugin settings.
+The GitHub Actions workflow builds the plugin, verifies the generated `.star` package with Starlight, and uploads the package as a workflow artifact.
 
 ## AI assistance and maintenance
 
-AI tools helped with reverse-engineering, implementation, and troubleshooting. The maintainer is responsible for reviewing, testing, and maintaining the code. This disclosure is included for submission transparency.
+AI tools assisted with reverse-engineering, implementation, and troubleshooting. The maintainer is responsible for reviewing, testing, and maintaining the code. This disclosure is included for submission transparency.
 
 ## License
 
