@@ -2,6 +2,7 @@
 id = "steam_hoverless"
 name = "Steam Hoverless"
 version = "1.0.0"
+author = "SnipCheddaBombs"
 description = "Hides Steam game hover-preview popups."
 
 [frontend]
