@@ -26,7 +26,7 @@ This is intentionally implemented in the Steam client frontend rather than as a 
 
 ## Download and install
 
-**[Open GitHub Releases](https://github.com/SnowFallinSummer/steam-hoverless/releases/latest)** for permanent downloads. Each published version includes its installable `.star` package. No release has been published yet; the first package will appear after the initial version tag is created.
+**[Open GitHub Releases](https://github.com/SnowFallinSummer/steam-hoverless/releases)** for permanent downloads. Each published version includes its installable `.star` package. No release has been published yet; the first package will appear after the initial version tag is created.
 
 You need [Millennium](https://github.com/SteamClientHomebrew/Millennium) installed first. For a manual install:
 
