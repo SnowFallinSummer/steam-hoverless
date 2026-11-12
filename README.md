@@ -24,6 +24,21 @@ The plugin runs as a Millennium client-side frontend module (`frontend/index.tsx
 
 This is intentionally implemented in the Steam client frontend rather than as a WebKit Store-page content script: the popup manager is a Steam-client runtime object, and the plugin needs to reach the documents owned by those managed popup windows.
 
+## Download and install
+
+**[Download the latest release](https://github.com/SnowFallinSummer/steam-hoverless/releases/latest)** and save the attached `.star` package.
+
+You need [Millennium](https://github.com/SteamClientHomebrew/Millennium) installed first. For a manual install:
+
+1. Fully exit Steam.
+2. Download the latest `.star` file from the Releases page above.
+3. Put the `.star` file in Millennium's plugin directory:
+   - **Windows:** `%STEAM%\\millennium\\plugin`
+   - **Linux:** `~/.local/share/millennium/plugins`
+4. Start Steam, open **Steam → Millennium → Plugins**, enable the plugin, save changes, and restart Steam if prompted.
+
+See Millennium's [official plugin installation guide](https://docs.steambrew.app/users/guides/installing-addons) and [plugin directory reference](https://docs.steambrew.app/users/getting-started/structure) for current instructions.
+
 ## Build
 
 Requirements: [Millennium](https://github.com/SteamClientHomebrew/Millennium) and [Bun](https://bun.sh/).
@@ -33,7 +48,7 @@ bun install --frozen-lockfile
 bun run build
 ```
 
-The GitHub Actions workflow builds the plugin, verifies the generated `.star` package with Starlight, and uploads the package as a workflow artifact.
+The GitHub Actions workflow builds the plugin, verifies the generated `.star` package with Starlight, and publishes it as a downloadable GitHub Release when a version tag is pushed.
 
 ## AI assistance and maintenance
 
