@@ -1,0 +1,50 @@
+name: Build Steam Hoverless 2
+
+on:
+  push:
+    branches:
+      - sh2-css-first
+    paths:
+      - "frontend/**"
+      - "plugin.json"
+      - "package.json"
+      - "bun.lock"
+      - "tsconfig.json"
+      - ".github/workflows/sh2-build.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out SH2
+        uses: actions/checkout@v4
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build plugin
+        run: |
+          mkdir -p dist
+          bun run build -- --release --of dist
+
+      - name: Verify package
+        run: |
+          mapfile -t PACKAGES < <(find dist -maxdepth 1 -type f -name '*.star' -print)
+          test "${#PACKAGES[@]}" -eq 1
+          ./node_modules/.bin/starlight verify "${PACKAGES[0]}"
+
+      - name: Upload installable package
+        uses: actions/upload-artifact@v4
+        with:
+          name: steam-hoverless2-star
+          path: dist/*.star
+          if-no-files-found: error
